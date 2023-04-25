@@ -1,9 +1,20 @@
 const email = document.getElementById("email");
 const country = document.getElementById("country");
 const zip = document.getElementById("zip");
-const password = document.getElementById("password");
+const password = document.getElementById("pwd");
+const passwordConfirm = document.getElementById("pwdConfirm");
 const submit = document.getElementById("submit");
 
+// Check Email
+email.addEventListener("input", (event) => {
+  if (email.validity.typeMismatch) {
+    email.setCustomValidity("Please enter a valid email address.");
+  } else {
+    email.setCustomValidity("");
+  }
+});
+
+// Check Zip & Country
 let checkZip = () => {
   let countryValue = country.value;
   const constraints = {
@@ -31,15 +42,22 @@ let checkZip = () => {
   }
 };
 
-email.addEventListener("input", (event) => {
-  if (email.validity.typeMismatch) {
-    email.setCustomValidity("Please enter a valid email address.");
-  } else {
-    email.setCustomValidity("");
-  }
-});
-
+// On load check for match of zip to country
 window.onload = () => {
   document.getElementById("country").onchange = checkZip;
   document.getElementById("zip").onchange = checkZip;
 };
+
+// Check Password
+let checkPassword = () => {
+  let pwd1 = password.value;
+  let pwd2 = passwordConfirm.value;
+
+  if (pwd1 === pwd2) {
+    password.setCustomValidity("");
+  } else {
+    password.setCustomValidity("Please make sure the passwords match.");
+  }
+};
+
+passwordConfirm.addEventListener("input", checkPassword);
